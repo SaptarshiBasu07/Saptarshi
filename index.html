@@ -6,6 +6,8 @@
     <title>Saptarshi Basu | Gateway</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database-compat.js"></script>
 
     <style>
         /* --- BEIGE & MAROON THEME --- */
@@ -112,10 +114,16 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* --- SCROLLING NOTIFICATION PANEL --- */
-        .notice-board {
+        /* --- SIDEBAR WIDGETS --- */
+        .sidebar-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
             flex: 0.8;
             max-width: 400px;
+        }
+
+        .widget-box {
             background: #fff;
             border: 2px solid rgba(139, 38, 59, 0.2);
             border-radius: 20px;
@@ -124,102 +132,53 @@
             position: relative;
         }
 
-        .notice-header {
+        .widget-header {
             font-family: 'Outfit', sans-serif;
             font-weight: 800;
             color: #fff;
             background: #8B263B;
-            padding: 12px;
+            padding: 10px;
             border-radius: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-size: 1.05rem;
+            font-size: 1rem;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(139, 38, 59, 0.2);
         }
 
-        /* The wrapper that hides the overflow */
-        .ticker-wrap {
-            height: 300px;
-            overflow: hidden;
-            position: relative;
-            /* Premium fading effect at top and bottom of the scroll box */
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-        }
+        /* --- NOTICES --- */
+        .ticker-wrap { height: 200px; overflow: hidden; position: relative; -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%); }
+        .ticker-content { display: flex; flex-direction: column; gap: 15px; animation: scroll-up 12s linear infinite; }
+        .ticker-wrap:hover .ticker-content { animation-play-state: paused; }
+        @keyframes scroll-up { 0% { transform: translateY(200px); } 100% { transform: translateY(-100%); } }
 
-        /* The moving content */
-        .ticker-content {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            /* Animation name, duration, linear speed, and infinite loop */
-            animation: scroll-up 15s linear infinite;
-        }
-
-        /* Pauses the movement when the user hovers over the box */
-        .ticker-wrap:hover .ticker-content {
-            animation-play-state: paused;
-        }
-
-        @keyframes scroll-up {
-            0% { transform: translateY(300px); } /* Starts off-screen at the bottom */
-            100% { transform: translateY(-100%); } /* Scrolls entirely out of view at the top */
-        }
-
-        .notice-item {
-            background: rgba(139, 38, 59, 0.03);
-            border-left: 4px solid #8B263B;
-            padding: 15px;
-            border-radius: 0 10px 10px 0;
-            transition: background 0.3s;
-        }
-
-        .notice-item:hover {
-            background: rgba(139, 38, 59, 0.08);
-        }
-
-        .notice-item a {
-            color: #4A1525;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            display: block;
-        }
-
+        .notice-item { background: rgba(139, 38, 59, 0.03); border-left: 4px solid #8B263B; padding: 12px; border-radius: 0 10px 10px 0; transition: background 0.3s; }
+        .notice-item:hover { background: rgba(139, 38, 59, 0.08); }
+        .notice-item a { color: #4A1525; text-decoration: none; font-weight: 600; font-size: 0.9rem; line-height: 1.4; display: block; }
         .notice-item a:hover { color: #8B263B; text-decoration: underline; }
-
-        .new-badge {
-            background: #E74C3C;
-            color: #fff;
-            font-size: 0.65rem;
-            padding: 3px 6px;
-            border-radius: 4px;
-            margin-left: 5px;
-            vertical-align: top;
-            display: inline-block;
-            animation: pulse-red 1.5s infinite;
-        }
-
+        .new-badge { background: #E74C3C; color: #fff; font-size: 0.6rem; padding: 2px 5px; border-radius: 4px; margin-left: 5px; vertical-align: top; display: inline-block; animation: pulse-red 1.5s infinite; }
         @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        /* --- RESPONSIVE ADJUSTMENTS --- */
+        /* --- STATS --- */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .stat-block { background: rgba(139, 38, 59, 0.03); padding: 15px 10px; border-radius: 12px; text-align: center; border: 1px solid rgba(139, 38, 59, 0.1); }
+        .stat-title { font-size: 0.8rem; font-weight: 700; color: #6D5D5A; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px;}
+        .stat-value { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 900; color: #8B263B; line-height: 1; display: flex; justify-content: center; align-items: center; min-height: 35px;}
+
+        /* Responsive Adjustments */
         @media (max-width: 950px) {
             .main-layout { flex-direction: column; gap: 40px; }
             h1 { font-size: 3.5rem; }
-            .notice-board { width: 100%; max-width: 600px; }
+            .sidebar-column { width: 100%; max-width: 600px; flex-direction: row; flex-wrap: wrap;}
+            .widget-box { flex: 1; min-width: 250px;}
         }
 
         @media (max-width: 600px) {
             h1 { font-size: 2.8rem; letter-spacing: -1px; }
-            h2 { font-size: 1rem; }
-            .btn { width: 100%; max-width: none; }
+            .sidebar-column { flex-direction: column; }
             .choice-container, .warning-buttons { flex-direction: column; align-items: center; }
+            .btn, .btn-back, .btn-proceed { width: 100%; max-width: none; }
             .warning-container { padding: 25px 20px; }
-            .warning-container h3 { font-size: 1.6rem; }
-            .btn-back, .btn-proceed { width: 100%; font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -257,48 +216,47 @@
             </div>
         </div>
 
-        <div class="notice-board gsap-item">
-            <div class="notice-header">Live Notice Board</div>
+        <div class="sidebar-column">
             
-            <div class="ticker-wrap">
-                <div class="ticker-content">
-                    
-                    <div class="notice-item">
-                        <a href="https://drive.google.com/file/d/1uO0mO7KhMyxh-a3JrGWQiAvYkt3oVXBJ/view?usp=sharing" target="_blank">
-                            📄 Hey! Take a look at Saptarshi's updated resume as of 31st March 2026. <span class="new-badge">NEW</span>
-                        </a>
+            <div class="widget-box gsap-item">
+                <div class="widget-header">Live Notice Board</div>
+                <div class="ticker-wrap">
+                    <div class="ticker-content">
+                        <div class="notice-item"><a href="https://drive.google.com/file/d/1uO0mO7KhMyxh-a3JrGWQiAvYkt3oVXBJ/view?usp=sharing" target="_blank">📄 Hey! Take a look at Saptarshi's updated resume as of 31st March 2026. <span class="new-badge">NEW</span></a></div>
+                        <div class="notice-item"><a href="https://drive.google.com/file/d/1hv8frlpUpJocDHD0LDi_qFlLVVg6fati/view?usp=sharing" target="_blank">🎬 Hey! Check out Saptarshi's Project Presentation Video as of 31st March 2026. <span class="new-badge">NEW</span></a></div>
+                        <div class="notice-item"><a href="https://finalyearproject-liart-iota.vercel.app/" target="_blank">🌐 Hey! View Saptarshi's Deployed Final Year Project as of 31st March 2026. <span class="new-badge">LIVE</span></a></div>
                     </div>
-
-                    <div class="notice-item">
-                        <a href="https://drive.google.com/file/d/1hv8frlpUpJocDHD0LDi_qFlLVVg6fati/view?usp=sharing" target="_blank">
-                            🎬 Hey! Check out Saptarshi's Project Presentation Video as of 31st March 2026. <span class="new-badge">NEW</span>
-                        </a>
-                    </div>
-
-                    <div class="notice-item">
-                        <a href="https://finalyearproject-liart-iota.vercel.app/" target="_blank">
-                            🌐 Hey! View Saptarshi's Deployed Final Year Project as of 31st March 2026. <span class="new-badge">LIVE</span>
-                        </a>
-                    </div>
-
                 </div>
             </div>
-        </div>
 
+            <div class="widget-box gsap-item">
+                <div class="widget-header" style="background: #4A1525;">Site Analytics</div>
+                <div class="stats-grid">
+                    <div class="stat-block">
+                        <div class="stat-title">Total Opens</div>
+                        <div class="stat-value" id="global-views">...</div>
+                    </div>
+                    <div class="stat-block">
+                        <div class="stat-title">Global Activity</div>
+                        <div class="stat-value" id="global-time" style="font-size: 1.2rem;">...</div>
+                    </div>
+                    <div class="stat-block" style="grid-column: span 2;">
+                        <div class="stat-title">Your Active Session</div>
+                        <div class="stat-value" id="session-timer">00:00</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <script>
+        // --- 1. ROUTING & UI LOGIC ---
         let currentTargetUrl = '';
         let currentDeviceName = '';
 
         window.onload = () => {
-            gsap.from(".gsap-item", {
-                y: 40,
-                opacity: 0,
-                duration: 1,
-                stagger: 0.15,
-                ease: "power3.out"
-            });
+            gsap.from(".gsap-item", { y: 40, opacity: 0, duration: 1, stagger: 0.15, ease: "power3.out" });
         };
 
         function showWarning(targetUrl, deviceName) {
@@ -324,10 +282,7 @@
                     document.getElementById("warning-container").style.display = "none";
                     document.getElementById("button-group").style.display = "flex";
                     document.getElementById("instruction-text").style.display = "block";
-                    
-                    gsap.fromTo(["#instruction-text", "#button-group"], 
-                        {opacity: 0, y: -20}, {opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.1}
-                    );
+                    gsap.fromTo(["#instruction-text", "#button-group"], {opacity: 0, y: -20}, {opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.1});
                 }
             });
         }
@@ -336,20 +291,70 @@
             gsap.to("#warning-container", {
                 opacity: 0, y: -20, duration: 0.3, onComplete: () => {
                     document.getElementById("warning-container").style.display = "none";
-                    
                     const loader = document.getElementById("loader-container");
                     loader.style.display = "flex";
                     gsap.fromTo(loader, {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.4});
-                    
                     document.getElementById("status-text").innerText = "Routing to " + currentDeviceName + " Experience...";
-                    
-                    setTimeout(function() {
-                        window.location.href = currentTargetUrl;
-                    }, 1200);
+                    setTimeout(function() { window.location.href = currentTargetUrl; }, 1200);
                 }
             });
         }
-    </script>
 
+        // --- 2. FIREBASE REAL-TIME STATS LOGIC ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmpINFGdahQXcvNQTtRVy0VJu_A_4dpz0",
+            authDomain: "portfolio-stats-bc260.firebaseapp.com",
+            projectId: "portfolio-stats-bc260",
+            storageBucket: "portfolio-stats-bc260.firebasestorage.app",
+            messagingSenderId: "534483176570",
+            appId: "1:534483176570:web:35e40235f2812a117a3fc3",
+            measurementId: "G-N3GT43F89X",
+            databaseURL: "https://portfolio-stats-bc260-default-rtdb.firebaseio.com" // Ensure this matches your project
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let startTime = Date.now();
+        const viewsRef = db.ref('globalStats/totalViews');
+        const timeRef = db.ref('globalStats/totalSeconds');
+
+        // Increment views on every new load
+        viewsRef.transaction((current) => (current || 0) + 1);
+
+        // Live sync data to your page
+        viewsRef.on('value', (snap) => {
+            document.getElementById('global-views').innerText = snap.val() || 0;
+        });
+
+        timeRef.on('value', (snap) => {
+            let totalSecs = snap.val() || 0;
+            document.getElementById('global-time').innerText = formatTime(totalSecs);
+        });
+
+        // Track Local Session Timer
+        setInterval(() => {
+            let sessionSecs = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('session-timer').innerText = formatTime(sessionSecs);
+        }, 1000);
+
+        // Update global activity time when a visitor closes or leaves the page
+        window.addEventListener("visibilitychange", function() {
+            if (document.visibilityState === 'hidden') {
+                let sessionDuration = Math.floor((Date.now() - startTime) / 1000);
+                timeRef.transaction((current) => (current || 0) + sessionDuration);
+                startTime = Date.now(); // Reset start time for next active segment
+            }
+        });
+
+        function formatTime(seconds) {
+            let h = Math.floor(seconds / 3600);
+            let m = Math.floor((seconds % 3600) / 60);
+            let s = seconds % 60;
+            if (h > 0) return `${h}h ${m}m`;
+            return `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
+        }
+    </script>
 </body>
 </html>
