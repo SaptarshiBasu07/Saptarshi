@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Saptarshi Basu | Gateway</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -23,17 +23,18 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             text-align: center;
-            overflow: hidden;
+            overflow-x: hidden;
             /* Premium Dot Matrix Background */
             background-image: radial-gradient(rgba(139, 38, 59, 0.05) 2px, transparent 2px);
             background-size: 30px 30px;
+            padding: 20px;
         }
 
         .gateway-wrapper {
+            width: 100%;
             max-width: 800px;
-            padding: 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -85,6 +86,7 @@
             gap: 20px;
             flex-wrap: wrap;
             justify-content: center;
+            width: 100%;
         }
 
         .btn {
@@ -118,6 +120,7 @@
             padding: 35px 40px;
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(139, 38, 59, 0.08);
+            width: 95%;
             max-width: 600px;
         }
 
@@ -147,32 +150,17 @@
             margin-top: 20px;
             flex-wrap: wrap;
             justify-content: center;
+            width: 100%;
         }
 
-        .btn-back {
-            background: transparent;
-            color: #6D5D5A;
-            border-color: #6D5D5A;
-        }
-
-        .btn-back:hover {
-            background: #6D5D5A;
-            color: #fff;
-        }
-
-        .btn-proceed {
-            background: #8B263B;
-            color: #fff;
-        }
-
-        .btn-proceed:hover {
-            background: #4A1525;
-            border-color: #4A1525;
-        }
+        .btn-back { background: transparent; color: #6D5D5A; border-color: #6D5D5A; }
+        .btn-back:hover { background: #6D5D5A; color: #fff; }
+        .btn-proceed { background: #8B263B; color: #fff; }
+        .btn-proceed:hover { background: #4A1525; border-color: #4A1525; }
 
         /* --- LOADING STATE UI --- */
         .loader-container {
-            display: none; /* Hidden until clicked */
+            display: none;
             margin-top: 20px;
         }
 
@@ -194,23 +182,40 @@
             animation: pulse 1.5s infinite;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* =========================================
+           RESPONSIVE AUTO-ADJUSTMENTS (MEDIA QUERIES)
+           ========================================= */
+        
+        /* TABLET VIEW */
+        @media (max-width: 1024px) {
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 1.2rem; }
+            .btn { padding: 14px 30px; font-size: 1.1rem; }
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Responsive */
+        /* MOBILE VIEW */
         @media (max-width: 600px) {
-            h1 { font-size: 3rem; }
-            h2 { font-size: 1.1rem; }
-            .btn { width: 100%; max-width: 300px; }
-            .choice-container, .warning-buttons { flex-direction: column; align-items: center; width: 100%; }
+            .gateway-wrapper { padding: 10px; }
+            .brand-badge { font-size: 0.75rem; padding: 6px 15px; margin-bottom: 20px;}
+            h1 { font-size: 2.8rem; letter-spacing: -1px; }
+            h2 { font-size: 1rem; margin-bottom: 20px; }
+            p.instruction { font-size: 1rem; margin-bottom: 30px; padding: 0 10px;}
+            
+            /* Stack buttons vertically on mobile */
+            .choice-container { flex-direction: column; align-items: center; gap: 15px; }
+            .btn { width: 100%; max-width: 300px; padding: 14px 20px; }
+            
+            /* Shrink and stack the warning container */
             .warning-container { padding: 25px 20px; }
+            .warning-container h3 { font-size: 1.6rem; }
+            .warning-container p { font-size: 1rem; }
+            .warning-buttons { flex-direction: column; gap: 10px; }
+            .btn-back, .btn-proceed { width: 100%; font-size: 1.1rem;}
+            
+            .status-text { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -247,7 +252,6 @@
     </div>
 
     <script>
-        // Store user's choice temporarily
         let currentTargetUrl = '';
         let currentDeviceName = '';
 
@@ -267,10 +271,8 @@
             currentTargetUrl = targetUrl;
             currentDeviceName = deviceName;
 
-            // Inject the name of the chosen device into the warning text
             document.getElementById("warning-device-name").innerText = deviceName;
 
-            // Smoothly hide the buttons and instruction text
             gsap.to(["#button-group", "#instruction-text"], {
                 opacity: 0, 
                 y: -20, 
@@ -279,7 +281,6 @@
                     document.getElementById("button-group").style.display = "none";
                     document.getElementById("instruction-text").style.display = "none";
                     
-                    // Show the warning container and animate it in
                     const warningDiv = document.getElementById("warning-container");
                     warningDiv.style.display = "flex";
                     gsap.fromTo(warningDiv, {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.4, ease: "power2.out"});
@@ -289,7 +290,6 @@
 
         // Function 2: User clicks "Go back", return to choices
         function goBack() {
-            // Smoothly hide warning container
             gsap.to("#warning-container", {
                 opacity: 0,
                 y: 20,
@@ -297,7 +297,6 @@
                 onComplete: () => {
                     document.getElementById("warning-container").style.display = "none";
                     
-                    // Bring back original buttons
                     document.getElementById("button-group").style.display = "flex";
                     document.getElementById("instruction-text").style.display = "block";
                     
@@ -311,7 +310,6 @@
 
         // Function 3: User clicks "Proceed", start loading and routing
         function confirmProceed() {
-            // Hide the warning container
             gsap.to("#warning-container", {
                 opacity: 0,
                 y: -20,
@@ -319,17 +317,13 @@
                 onComplete: () => {
                     document.getElementById("warning-container").style.display = "none";
                     
-                    // Show the loading spinner
                     const loader = document.getElementById("loader-container");
                     loader.style.display = "block";
                     
-                    // Animate the loader in
                     gsap.fromTo(loader, {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.4});
                     
-                    // Change the text to show the routing process
                     document.getElementById("status-text").innerText = "Routing to " + currentDeviceName + " Experience...";
                     
-                    // Redirect after 1.2 seconds
                     setTimeout(function() {
                         window.location.href = currentTargetUrl;
                     }, 1200);
