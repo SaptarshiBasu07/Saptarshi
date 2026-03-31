@@ -8,39 +8,43 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
-        /* --- BEIGE & MAROON SPLASH THEME --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* --- BEIGE & MAROON THEME --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: #F7F4EF;
             color: #4A1525;
             font-family: 'Plus Jakarta Sans', sans-serif;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            text-align: center;
-            overflow-x: hidden;
-            /* Premium Dot Matrix Background */
             background-image: radial-gradient(rgba(139, 38, 59, 0.05) 2px, transparent 2px);
             background-size: 30px 30px;
             padding: 20px;
+            overflow-x: hidden;
         }
 
-        .gateway-wrapper {
+        .main-layout {
+            display: flex;
+            flex-direction: row;
+            gap: 50px;
             width: 100%;
-            max-width: 800px;
+            max-width: 1100px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- GATEWAY CENTER PORTION --- */
+        .gateway-wrapper {
+            flex: 1.2;
+            max-width: 650px;
+            text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* Top Badge */
         .brand-badge {
             background: rgba(139, 38, 59, 0.08);
             color: #8B263B;
@@ -55,39 +59,11 @@
             border: 1px solid rgba(139, 38, 59, 0.2);
         }
 
-        h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 4.5rem;
-            font-weight: 900;
-            color: #4A1525;
-            line-height: 1;
-            margin-bottom: 15px;
-            letter-spacing: -2px;
-        }
+        h1 { font-family: 'Outfit', sans-serif; font-size: 4.2rem; font-weight: 900; color: #4A1525; line-height: 1; margin-bottom: 15px; letter-spacing: -2px; }
+        h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.3rem; font-weight: 500; color: #8B263B; margin-bottom: 30px; }
+        p.instruction { color: #6D5D5A; font-size: 1.1rem; margin-bottom: 35px; font-weight: 500; }
 
-        h2 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 500;
-            color: #8B263B;
-            margin-bottom: 30px;
-        }
-
-        p.instruction {
-            color: #6D5D5A;
-            font-size: 1.1rem;
-            margin-bottom: 40px;
-            font-weight: 500;
-        }
-
-        /* --- MANUAL CHOICE BUTTONS --- */
-        .choice-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-        }
+        .choice-container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; width: 100%; }
 
         .btn {
             padding: 16px 40px;
@@ -96,23 +72,18 @@
             color: #8B263B;
             font-family: 'Outfit', sans-serif;
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: #fff;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(139, 38, 59, 0.05);
         }
 
-        .btn:hover {
-            background: #8B263B;
-            color: #fff;
-            transform: translateY(-5px);
-            box-shadow: 0 15px 25px rgba(139, 38, 59, 0.2);
-        }
+        .btn:hover { background: #8B263B; color: #fff; transform: translateY(-5px); box-shadow: 0 15px 25px rgba(139, 38, 59, 0.2); }
 
         /* --- WARNING CONTAINER --- */
         .warning-container {
-            display: none; /* Hidden initially */
+            display: none; 
             flex-direction: column;
             align-items: center;
             background: #fff;
@@ -120,142 +91,206 @@
             padding: 35px 40px;
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(139, 38, 59, 0.08);
-            width: 95%;
-            max-width: 600px;
-        }
-
-        .warning-container h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2rem;
-            color: #8B263B;
-            margin-bottom: 15px;
-            font-weight: 800;
-        }
-
-        .warning-container p {
-            color: #4A1525;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .warning-container p strong {
-            color: #8B263B;
-            font-weight: 700;
-        }
-
-        .warning-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
             width: 100%;
         }
 
+        .warning-container h3 { font-family: 'Outfit', sans-serif; font-size: 2rem; color: #8B263B; margin-bottom: 15px; font-weight: 800; }
+        .warning-container p { color: #4A1525; font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px; }
+        .warning-container p strong { color: #8B263B; font-weight: 700; }
+
+        .warning-buttons { display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; justify-content: center; width: 100%; }
         .btn-back { background: transparent; color: #6D5D5A; border-color: #6D5D5A; }
         .btn-back:hover { background: #6D5D5A; color: #fff; }
         .btn-proceed { background: #8B263B; color: #fff; }
         .btn-proceed:hover { background: #4A1525; border-color: #4A1525; }
 
-        /* --- LOADING STATE UI --- */
-        .loader-container {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(139, 38, 59, 0.1);
-            border-top: 4px solid #8B263B;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 25px auto;
-        }
-
-        .status-text {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #8B263B;
-            animation: pulse 1.5s infinite;
-        }
+        /* --- LOADING SPINNER --- */
+        .loader-container { display: none; margin-top: 20px; flex-direction: column; align-items: center;}
+        .spinner { width: 50px; height: 50px; border: 4px solid rgba(139, 38, 59, 0.1); border-top: 4px solid #8B263B; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+        .status-text { font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 700; color: #8B263B; animation: pulse 1.5s infinite; }
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* =========================================
-           RESPONSIVE AUTO-ADJUSTMENTS (MEDIA QUERIES)
-           ========================================= */
-        
-        /* TABLET VIEW */
-        @media (max-width: 1024px) {
-            h1 { font-size: 3.5rem; }
-            h2 { font-size: 1.2rem; }
-            .btn { padding: 14px 30px; font-size: 1.1rem; }
+        /* --- SCROLLING NOTIFICATION PANEL --- */
+        .notice-board {
+            flex: 0.8;
+            max-width: 400px;
+            background: #fff;
+            border: 2px solid rgba(139, 38, 59, 0.2);
+            border-radius: 20px;
+            padding: 25px 20px;
+            box-shadow: 0 15px 35px rgba(139, 38, 59, 0.08);
+            position: relative;
         }
 
-        /* MOBILE VIEW */
+        .notice-header {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            color: #fff;
+            background: #8B263B;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.05rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(139, 38, 59, 0.2);
+        }
+
+        /* The wrapper that hides the overflow */
+        .ticker-wrap {
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+            /* Premium fading effect at top and bottom of the scroll box */
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+        }
+
+        /* The moving content */
+        .ticker-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            /* Animation name, duration, linear speed, and infinite loop */
+            animation: scroll-up 15s linear infinite;
+        }
+
+        /* Pauses the movement when the user hovers over the box */
+        .ticker-wrap:hover .ticker-content {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll-up {
+            0% { transform: translateY(300px); } /* Starts off-screen at the bottom */
+            100% { transform: translateY(-100%); } /* Scrolls entirely out of view at the top */
+        }
+
+        .notice-item {
+            background: rgba(139, 38, 59, 0.03);
+            border-left: 4px solid #8B263B;
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+            transition: background 0.3s;
+        }
+
+        .notice-item:hover {
+            background: rgba(139, 38, 59, 0.08);
+        }
+
+        .notice-item a {
+            color: #4A1525;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            display: block;
+        }
+
+        .notice-item a:hover { color: #8B263B; text-decoration: underline; }
+
+        .new-badge {
+            background: #E74C3C;
+            color: #fff;
+            font-size: 0.65rem;
+            padding: 3px 6px;
+            border-radius: 4px;
+            margin-left: 5px;
+            vertical-align: top;
+            display: inline-block;
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media (max-width: 950px) {
+            .main-layout { flex-direction: column; gap: 40px; }
+            h1 { font-size: 3.5rem; }
+            .notice-board { width: 100%; max-width: 600px; }
+        }
+
         @media (max-width: 600px) {
-            .gateway-wrapper { padding: 10px; }
-            .brand-badge { font-size: 0.75rem; padding: 6px 15px; margin-bottom: 20px;}
             h1 { font-size: 2.8rem; letter-spacing: -1px; }
-            h2 { font-size: 1rem; margin-bottom: 20px; }
-            p.instruction { font-size: 1rem; margin-bottom: 30px; padding: 0 10px;}
-            
-            /* Stack buttons vertically on mobile */
-            .choice-container { flex-direction: column; align-items: center; gap: 15px; }
-            .btn { width: 100%; max-width: 300px; padding: 14px 20px; }
-            
-            /* Shrink and stack the warning container */
+            h2 { font-size: 1rem; }
+            .btn { width: 100%; max-width: none; }
+            .choice-container, .warning-buttons { flex-direction: column; align-items: center; }
             .warning-container { padding: 25px 20px; }
             .warning-container h3 { font-size: 1.6rem; }
-            .warning-container p { font-size: 1rem; }
-            .warning-buttons { flex-direction: column; gap: 10px; }
-            .btn-back, .btn-proceed { width: 100%; font-size: 1.1rem;}
-            
-            .status-text { font-size: 1.2rem; }
+            .btn-back, .btn-proceed { width: 100%; font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="gateway-wrapper">
-        <div class="gsap-item brand-badge">Engineering & Development Portfolio</div>
-        <h1 class="gsap-item">SAPTARSHI BASU</h1>
-        <h2 class="gsap-item">AI Applications | IoT Hardware | Full-Stack Web</h2>
+    <div class="main-layout">
         
-        <p class="gsap-item instruction" id="instruction-text">Select your current device to load the optimized interface.</p>
-
-        <div class="choice-container gsap-item" id="button-group">
-            <button onclick="showWarning('desktop.html', 'Desktop')" class="btn">Desktop</button>
-            <button onclick="showWarning('ipad.html', 'Tablet')" class="btn">Tablet</button>
-            <button onclick="showWarning('mobile.html', 'Mobile')" class="btn">Mobile</button>
-        </div>
-
-        <div class="warning-container" id="warning-container">
-            <h3>Wait, Are You Sure?</h3>
-            <p>Are you sure that you are using a <strong id="warning-device-name">Device</strong>? A wrong choice may lead to an awful viewing experience, and the developer is not responsible for that.</p>
-            <p>If you are not sure, you may go back to the initial page.</p>
+        <div class="gateway-wrapper">
+            <div class="gsap-item brand-badge">Engineering & Development Portfolio</div>
+            <h1 class="gsap-item">SAPTARSHI BASU</h1>
+            <h2 class="gsap-item">AI Applications | IoT Hardware | Full-Stack Web</h2>
             
-            <div class="warning-buttons">
-                <button onclick="goBack()" class="btn btn-back">Go back</button>
-                <button onclick="confirmProceed()" class="btn btn-proceed">No I am sure, let's proceed!</button>
+            <p class="gsap-item instruction" id="instruction-text">Select your current device to load the optimized interface.</p>
+
+            <div class="choice-container gsap-item" id="button-group">
+                <button onclick="showWarning('desktop.html', 'Desktop')" class="btn">Desktop</button>
+                <button onclick="showWarning('ipad.html', 'Tablet')" class="btn">Tablet</button>
+                <button onclick="showWarning('mobile.html', 'Mobile')" class="btn">Mobile</button>
+            </div>
+
+            <div class="warning-container" id="warning-container">
+                <h3>Wait, Are You Sure?</h3>
+                <p>Are you sure that you are using a <strong id="warning-device-name">Device</strong>? A wrong choice may lead to an awful viewing experience, and the developer is not responsible for that.</p>
+                <p>If you are not sure, you may go back to the initial page.</p>
+                
+                <div class="warning-buttons">
+                    <button onclick="goBack()" class="btn btn-back">Go back</button>
+                    <button onclick="confirmProceed()" class="btn btn-proceed">No I am sure, let's proceed!</button>
+                </div>
+            </div>
+
+            <div class="loader-container" id="loader-container">
+                <div class="spinner"></div>
+                <p class="status-text" id="status-text">Initializing interface...</p>
             </div>
         </div>
 
-        <div class="loader-container" id="loader-container">
-            <div class="spinner"></div>
-            <p class="status-text" id="status-text">Initializing interface...</p>
+        <div class="notice-board gsap-item">
+            <div class="notice-header">Live Notice Board</div>
+            
+            <div class="ticker-wrap">
+                <div class="ticker-content">
+                    
+                    <div class="notice-item">
+                        <a href="https://drive.google.com/file/d/1uO0mO7KhMyxh-a3JrGWQiAvYkt3oVXBJ/view?usp=sharing" target="_blank">
+                            📄 Hey! Take a look at Saptarshi's updated resume as of 31st March 2026. <span class="new-badge">NEW</span>
+                        </a>
+                    </div>
+
+                    <div class="notice-item">
+                        <a href="https://drive.google.com/file/d/1hv8frlpUpJocDHD0LDi_qFlLVVg6fati/view?usp=sharing" target="_blank">
+                            🎬 Hey! Check out Saptarshi's Project Presentation Video as of 31st March 2026. <span class="new-badge">NEW</span>
+                        </a>
+                    </div>
+
+                    <div class="notice-item">
+                        <a href="https://finalyearproject-liart-iota.vercel.app/" target="_blank">
+                            🌐 Hey! View Saptarshi's Deployed Final Year Project as of 31st March 2026. <span class="new-badge">LIVE</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
         </div>
+
     </div>
 
     <script>
         let currentTargetUrl = '';
         let currentDeviceName = '';
 
-        // Initial Entrance Animations
         window.onload = () => {
             gsap.from(".gsap-item", {
                 y: 40,
@@ -266,18 +301,13 @@
             });
         };
 
-        // Function 1: User clicks a device, show warning
         function showWarning(targetUrl, deviceName) {
             currentTargetUrl = targetUrl;
             currentDeviceName = deviceName;
-
             document.getElementById("warning-device-name").innerText = deviceName;
 
             gsap.to(["#button-group", "#instruction-text"], {
-                opacity: 0, 
-                y: -20, 
-                duration: 0.3, 
-                onComplete: () => {
+                opacity: 0, y: -20, duration: 0.3, onComplete: () => {
                     document.getElementById("button-group").style.display = "none";
                     document.getElementById("instruction-text").style.display = "none";
                     
@@ -288,38 +318,27 @@
             });
         }
 
-        // Function 2: User clicks "Go back", return to choices
         function goBack() {
             gsap.to("#warning-container", {
-                opacity: 0,
-                y: 20,
-                duration: 0.3,
-                onComplete: () => {
+                opacity: 0, y: 20, duration: 0.3, onComplete: () => {
                     document.getElementById("warning-container").style.display = "none";
-                    
                     document.getElementById("button-group").style.display = "flex";
                     document.getElementById("instruction-text").style.display = "block";
                     
                     gsap.fromTo(["#instruction-text", "#button-group"], 
-                        {opacity: 0, y: -20}, 
-                        {opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.1}
+                        {opacity: 0, y: -20}, {opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.1}
                     );
                 }
             });
         }
 
-        // Function 3: User clicks "Proceed", start loading and routing
         function confirmProceed() {
             gsap.to("#warning-container", {
-                opacity: 0,
-                y: -20,
-                duration: 0.3,
-                onComplete: () => {
+                opacity: 0, y: -20, duration: 0.3, onComplete: () => {
                     document.getElementById("warning-container").style.display = "none";
                     
                     const loader = document.getElementById("loader-container");
-                    loader.style.display = "block";
-                    
+                    loader.style.display = "flex";
                     gsap.fromTo(loader, {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.4});
                     
                     document.getElementById("status-text").innerText = "Routing to " + currentDeviceName + " Experience...";
