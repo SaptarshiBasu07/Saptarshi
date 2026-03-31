@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saptarshi Basu | Gateway</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+        /* --- BEIGE & MAROON SPLASH THEME --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #F7F4EF;
+            color: #4A1525;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+            /* Premium Dot Matrix Background */
+            background-image: radial-gradient(rgba(139, 38, 59, 0.05) 2px, transparent 2px);
+            background-size: 30px 30px;
+        }
+
+        .gateway-wrapper {
+            max-width: 800px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Top Badge */
+        .brand-badge {
+            background: rgba(139, 38, 59, 0.08);
+            color: #8B263B;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            border: 1px solid rgba(139, 38, 59, 0.2);
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: #4A1525;
+            line-height: 1;
+            margin-bottom: 15px;
+            letter-spacing: -2px;
+        }
+
+        h2 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: #8B263B;
+            margin-bottom: 30px;
+        }
+
+        p.instruction {
+            color: #6D5D5A;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        /* --- MANUAL CHOICE BUTTONS --- */
+        .choice-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            border: 2px solid #8B263B;
+            border-radius: 50px;
+            color: #8B263B;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #fff;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(139, 38, 59, 0.05);
+        }
+
+        .btn:hover {
+            background: #8B263B;
+            color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(139, 38, 59, 0.2);
+        }
+
+        /* --- LOADING STATE UI --- */
+        .loader-container {
+            display: none; /* Hidden until clicked */
+            margin-top: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(139, 38, 59, 0.1);
+            border-top: 4px solid #8B263B;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 25px auto;
+        }
+
+        .status-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #8B263B;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 1.1rem; }
+            .btn { width: 100%; max-width: 300px; }
+            .choice-container { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="gateway-wrapper">
+        <div class="gsap-item brand-badge">Engineering & Development Portfolio</div>
+        <h1 class="gsap-item">SAPTARSHI BASU</h1>
+        <h2 class="gsap-item">AI Applications | IoT Hardware | Full-Stack Web</h2>
+        
+        <p class="gsap-item instruction" id="instruction-text">Select your current device to load the optimized interface.</p>
+
+        <div class="choice-container gsap-item" id="button-group">
+            <button onclick="startRouting('desktop.html', 'Desktop')" class="btn">Desktop</button>
+            <button onclick="startRouting('ipad.html', 'Tablet')" class="btn">Tablet</button>
+            <button onclick="startRouting('mobile.html', 'Mobile')" class="btn">Mobile</button>
+        </div>
+
+        <div class="loader-container" id="loader-container">
+            <div class="spinner"></div>
+            <p class="status-text" id="status-text">Initializing interface...</p>
+        </div>
+    </div>
+
+    <script>
+        // Initial Entrance Animations
+        window.onload = () => {
+            gsap.from(".gsap-item", {
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power3.out"
+            });
+        };
+
+        // Interactive Routing Logic
+        function startRouting(targetUrl, deviceName) {
+            // 1. Hide the buttons and instruction text smoothly
+            gsap.to(["#button-group", "#instruction-text"], {
+                opacity: 0, 
+                y: -20, 
+                duration: 0.3, 
+                onComplete: () => {
+                    document.getElementById("button-group").style.display = "none";
+                    document.getElementById("instruction-text").style.display = "none";
+                    
+                    // 2. Show the loading spinner
+                    const loader = document.getElementById("loader-container");
+                    loader.style.display = "block";
+                    
+                    // 3. Animate the loader in
+                    gsap.from(loader, { opacity: 0, y: 20, duration: 0.4 });
+                    
+                    // 4. Change the text to show the routing process
+                    document.getElementById("status-text").innerText = "Routing to " + deviceName + " Experience...";
+                    
+                    // 5. Redirect after 1.2 seconds
+                    setTimeout(function() {
+                        window.location.href = targetUrl;
+                    }, 1200);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

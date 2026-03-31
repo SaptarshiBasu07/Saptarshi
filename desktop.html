@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saptarshi Basu | AI, Web & IoT Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        /* --- BEIGE & MAROON AESTHETIC --- */
+        :root {
+            --bg-base: #F7F4EF; 
+            --bg-card: #FFFFFF;
+            --maroon-dark: #4A1525;
+            --maroon-main: #8B263B;
+            --maroon-light: #B83A54;
+            --text-dark: #2D1B1E;
+            --text-muted: #6D5D5A;
+            --border-color: rgba(139, 38, 59, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+            background-image: radial-gradient(rgba(139, 38, 59, 0.03) 2px, transparent 2px);
+            background-size: 30px 30px;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; }
+        a { text-decoration: none; color: var(--maroon-main); transition: all 0.3s ease; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+
+        /* --- FIXED FLOATING NAVIGATION --- */
+        .floating-nav {
+            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); border: 1px solid var(--border-color);
+            border-radius: 50px; padding: 12px 35px; display: flex; gap: 30px;
+            z-index: 1000; box-shadow: 0 10px 30px rgba(74, 21, 37, 0.08); align-items: center;
+        }
+        .nav-logo { font-family: 'Outfit'; font-weight: 900; font-size: 1.2rem; color: var(--maroon-dark); margin-right: 20px; }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { font-size: 0.95rem; font-weight: 600; color: var(--text-muted); position: relative; }
+        .nav-links a:hover, .nav-links a.active { color: var(--maroon-main); }
+        .nav-links a::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: -4px; left: 0; background-color: var(--maroon-main); transition: width 0.3s;
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+        /* --- HERO SECTION --- */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: space-between; gap: 50px; padding-top: 100px; }
+        .hero-content { flex: 1.2; }
+        .domains { color: var(--maroon-main); font-weight: 700; letter-spacing: 1.5px; font-size: 0.9rem; margin-bottom: 15px; text-transform: uppercase; }
+        .hero h1 { font-size: 5.5rem; font-weight: 900; line-height: 1; margin-bottom: 25px; letter-spacing: -2px; color: var(--maroon-dark); }
+        .punchline-badge {
+            background: #FFFFFF; border: 2px solid var(--maroon-main); padding: 20px 30px;
+            border-radius: 16px; display: inline-block; margin-bottom: 30px; box-shadow: 6px 6px 0px rgba(139, 38, 59, 0.15);
+        }
+        .punchline-badge p { margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--text-dark); line-height: 1.6; }
+        .punchline-badge span { color: var(--maroon-main); font-weight: 800; }
+        .hero p.bio { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 40px; max-width: 650px; }
+        .hero-image-container { flex: 0.8; display: flex; justify-content: center; position: relative; }
+        .hero-image {
+            width: 100%; max-width: 480px; position: relative; z-index: 2;
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+        }
+
+        /* --- SECTIONS --- */
+        section { padding: 120px 0; border-bottom: 1px solid var(--border-color); }
+        .section-title { font-size: 3.5rem; font-weight: 900; margin-bottom: 60px; color: var(--maroon-dark); display: inline-block; border-bottom: 4px solid var(--maroon-light); padding-bottom: 5px; }
+
+        /* --- CARDS & LISTS --- */
+        .aesthetic-card {
+            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px;
+            padding: 45px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(74, 21, 37, 0.04); transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .aesthetic-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(74, 21, 37, 0.08); border-color: var(--maroon-main); }
+        .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; border-bottom: 2px dashed var(--border-color); padding-bottom: 20px; }
+        .exp-title h3 { font-size: 2rem; color: var(--maroon-dark); font-weight: 800; }
+        .exp-title h4 { font-size: 1.25rem; color: var(--maroon-main); font-weight: 700; margin-top: 5px; }
+        .exp-date { background: rgba(139, 38, 59, 0.08); padding: 8px 18px; border-radius: 50px; font-size: 0.95rem; font-weight: 700; color: var(--maroon-main); }
+        .exp-list { display: flex; flex-direction: column; gap: 18px; margin-top: 25px; }
+        .exp-item { display: flex; align-items: flex-start; gap: 15px; }
+        .exp-icon { color: var(--maroon-light); font-size: 1.4rem; line-height: 1.2; }
+        .exp-text { color: var(--text-dark); font-size: 1.05rem; line-height: 1.7; }
+        .exp-text strong { color: var(--maroon-dark); font-weight: 700; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .stat-highlight { font-size: 3rem; font-weight: 900; color: var(--maroon-main); margin-bottom: 10px; display: block; line-height: 1; }
+
+        /* --- VISUAL FLOWCHART UI --- */
+        .workflow-container { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; align-items: center; width: 100%; }
+        .workflow-step { 
+            background: #fff; border: 2px solid var(--border-color); padding: 12px 15px; border-radius: 12px;
+            width: 100%; text-align: center; font-weight: 700; font-size: 0.95rem; color: var(--maroon-dark);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: 0.3s; line-height: 1.3;
+        }
+        .workflow-step:hover { border-color: var(--maroon-main); background: rgba(139, 38, 59, 0.03); }
+        .workflow-step span { color: var(--maroon-main); font-size: 0.8rem; display: block; font-weight: 500; margin-top: 5px; }
+        .workflow-arrow { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--maroon-main); font-weight: bold; font-size: 1.2rem; margin: -4px 0; }
+        .workflow-row { display: flex; width: 100%; gap: 12px; justify-content: space-between; }
+        .workflow-row .workflow-step { flex: 1; font-size: 0.85rem; padding: 10px; }
+        .workflow-split-arrow { width: 100%; display: flex; justify-content: space-around; color: var(--maroon-main); font-weight: bold; font-size: 1.2rem; }
+
+        /* --- WORKFLOW SUMMARY UI --- */
+        .workflow-summary {
+            background: rgba(247, 244, 239, 0.6); border: 1px solid var(--border-color);
+            border-radius: 16px; padding: 25px; margin-top: 30px;
+        }
+        .workflow-summary h4 { font-size: 1.3rem; color: var(--maroon-dark); border-bottom: 2px solid var(--maroon-light); padding-bottom: 8px; margin-bottom: 15px; }
+
+        /* --- DETAILED SKILLS UI --- */
+        .tag-container { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+        .tag {
+            background: rgba(139, 38, 59, 0.05); color: var(--maroon-main);
+            padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 700;
+            border: 1px solid rgba(139, 38, 59, 0.2); transition: all 0.3s;
+        }
+        .tag:hover { background: var(--maroon-main); color: #fff; }
+        .skill-group { margin-bottom: 30px; border-left: 3px solid var(--maroon-light); padding-left: 20px; }
+        .skill-group h3 { font-size: 1.8rem; color: var(--maroon-dark); font-weight: 800; margin-bottom: 5px; }
+        .skill-group p.category-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px; }
+
+        /* --- FOOTER / CONTACT --- */
+        footer { background: var(--maroon-dark); padding: 100px 0; text-align: center; color: #fff; }
+        .contact-wrap { display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; margin: 50px 0; }
+        .contact-item { display: flex; flex-direction: column; align-items: center; }
+        .contact-item span { color: rgba(255,255,255,0.7); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+        .contact-item a, .contact-item strong { font-size: 1.3rem; color: #fff; font-weight: 600; font-family: 'Outfit'; text-align: center; line-height: 1.4;}
+        .contact-item a:hover { color: #fca5a5; }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero { flex-direction: column-reverse; text-align: center; padding-top: 140px; }
+            .hero h1 { font-size: 4rem; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .floating-nav { width: 90%; flex-wrap: wrap; justify-content: center; padding: 15px; border-radius: 20px; }
+            .nav-logo { display: none; }
+            .workflow-row { flex-direction: column; }
+            .workflow-split-arrow { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="floating-nav gsap-fade">
+        <div class="nav-logo">SB.</div>
+        <div class="nav-links">
+            <a href="#profile">Profile</a>
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#skills">Skills</a>
+            <a href="#education">Education</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section id="profile" class="hero" style="border:none;">
+            <div class="hero-content gsap-stagger">
+                <div class="domains">ECE Engineer | AI Applications | Tech Educator | AI Outreach</div>
+                <h1>SAPTARSHI<br>BASU</h1>
+                
+                <div class="punchline-badge">
+                    <p>🎯 Incoming Technical Trainee @ <span>Godrej Infotech</span> <br> 🤖 AI Intern @ <span>BHARAT Plus AI</span><br> 📚 Online Tech Educator @ <span>LME & Deepti</span></p>
+                </div>
+
+                <p class="bio">
+                    Electronics and Communication Engineering undergraduate (2026 batch) bridging the gap between hardware architecture, Artificial Intelligence workflows, and full-stack development. Actively involved in AI-assisted workflows, academic content development, and digital learning enablement. I am passionate about simplifying complex technical paradigms and building scalable learning ecosystems.
+                </p>
+            </div>
+
+            <div class="hero-image-container gsap-fade">
+                <img src="mysnap2.png" alt="Saptarshi Basu" class="hero-image">
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2 class="section-title gsap-slide-up">Professional Vanguard</h2>
+            
+            <div class="aesthetic-card gsap-slide-up">
+                <div class="exp-header">
+                    <div class="exp-title">
+                        <h3>Incoming Technical Trainee</h3>
+                        <h4>Godrej Infotech</h4>
+                    </div>
+                    <div class="exp-date">Expected Onboarding: 2026</div>
+                </div>
+                <div class="exp-list">
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Technical Validation:</strong> Successfully cleared rigorous multi-stage campus selection examinations, validating deep technical aptitude, problem-solving capabilities, and core engineering fundamentals against highly competitive enterprise standards.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Corporate Integration:</strong> Currently finalizing institutional documentation and administrative onboarding protocols, poised to integrate into corporate IT operations and contribute to scalable tech solutions post-graduation.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>System Architecture:</strong> Prepared to engage with enterprise-level system architecture and software development life cycles upon successful onboarding.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Continuous Learning:</strong> Actively upskilling in modern full-stack methodologies and IoT paradigms to ensure immediate, high-impact project contribution.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="aesthetic-card gsap-slide-up">
+                <div class="exp-header">
+                    <div class="exp-title">
+                        <h3>AI Intern (Artificial Intelligence Applications)</h3>
+                        <h4>BHARAT Plus AI (Calnestor IntelliTech Solutions Pvt. Ltd.)</h4>
+                    </div>
+                    <div class="exp-date">Feb 2026 - Present</div>
+                </div>
+                <div class="exp-list">
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Workflow Optimization:</strong> Spearheading the integration of AI-assisted workflows to optimize practical problem domains and accelerate research pipelines within a fast-paced, high-growth startup environment.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Real-World Deployment:</strong> Contributing directly to the development and real-world deployment of generative AI-driven solutions tailored for industry-specific use cases, ensuring robust application logic and presentation.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Cross-Functional Innovation:</strong> Collaborating across cross-functional teams to explore and implement advanced AI technologies, pushing the boundaries of automated efficiency.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>UI Presentation Layers:</strong> Designing and refining intuitive user interfaces for AI products to maximize end-user engagement and system accessibility.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Agile Development:</strong> Participating in rapid prototyping and iterative testing phases to heavily accelerate product delivery timelines.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="aesthetic-card gsap-slide-up">
+                <div class="exp-header">
+                    <div class="exp-title">
+                        <h3>Technical Educator (Engineering & EdTech)</h3>
+                        <h4>LME (Last Minute Engineering)</h4>
+                    </div>
+                    <div class="exp-date">March 2026 - Present</div>
+                </div>
+                <div class="exp-list">
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Curriculum Architecture:</strong> Architected and taught comprehensive modules on Computer Networks and Network Theory, actively mentoring MAKAUT university students through highly structured, exam-oriented frameworks.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Conceptual Translation:</strong> Focused intensively on conceptual clarity by translating dense mathematical and theoretical paradigms into simplified, accessible learning approaches.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Performance Tracking:</strong> Evaluated student progress through custom mock assessments and established targeted feedback mechanisms to ensure syllabus retention.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Resource Generation:</strong> Authored comprehensive, LaTeX-formatted study materials and technical assignments specifically tailored to rigorous university examination patterns.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="aesthetic-card gsap-slide-up">
+                <div class="exp-header">
+                    <div class="exp-title">
+                        <h3>Online Educator & Mentor</h3>
+                        <h4>Deepti Educational Institute</h4>
+                    </div>
+                    <div class="exp-date">Feb 2025 - Present</div>
+                </div>
+                <div class="exp-list">
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Digital Enablement:</strong> Delivered end-to-end online technical sessions across multiple student batches, engineering highly organized digital learning materials and study resources.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Mentorship:</strong> Guided learners in the adoption of modern digital learning tools and technology-enabled study methods, mentoring them in structured problem-solving approaches.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Interactive Sessions:</strong> Facilitated live Q&A modules to rapidly resolve technical doubts and foster a highly collaborative digital classroom environment.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Curriculum Adaptation:</strong> Tailored instructional strategies to effectively accommodate the diverse learning paces and technical backgrounds among incoming students.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="aesthetic-card gsap-slide-up">
+                <div class="exp-header">
+                    <div class="exp-title">
+                        <h3>Industrial Trainee (CNS)</h3>
+                        <h4>Airports Authority of India (AAI)</h4>
+                    </div>
+                    <div class="exp-date">July 2025</div>
+                </div>
+                <div class="exp-list">
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Aviation Telemetry:</strong> Conducted detailed observational studies during a comprehensive 15-day industrial training on safety-critical aviation Communication, Navigation, and Surveillance (CNS) systems, specifically analyzing VHF, Radar, and Nav-Aids technologies.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Operational Safety:</strong> Acquired first-hand exposure to the rigorous protocols, technical fail-safes, and high-stakes operations required in air traffic management environments.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Hardware Inspection:</strong> Analyzed the physical infrastructure and rigid maintenance routines required to keep high-frequency navigational aids operational 24/7.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Signal Processing:</strong> Deepened theoretical understanding of signal transmission, continuous reception, and active error-correction within live aerospace networks.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="aesthetic-card gsap-slide-up">
+                <div class="exp-header">
+                    <div class="exp-title">
+                        <h3>Industrial Trainee – Signal & Telecom</h3>
+                        <h4>Indian Railways (Liluah)</h4>
+                    </div>
+                    <div class="exp-date">July 2025</div>
+                </div>
+                <div class="exp-list">
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Domain Training:</strong> Completed a focused 15-day industrial training in the core Electronics & Communication Engineering domain.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Core Infrastructure:</strong> Gained vital exposure to railway signaling systems, track circuits, and expansive telecom infrastructure.</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">✦</div>
+                        <div class="exp-text"><strong>Real-Time Observation:</strong> Observed the real-time operation, architecture, and maintenance of massive communication infrastructures alongside relay logic and safety fail-safes.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2 class="section-title gsap-slide-up">Engineering Projects</h2>
+            
+            <div class="aesthetic-card gsap-slide-up">
+                <div class="exp-header" style="border-bottom: none; margin-bottom: 0;">
+                    <div class="exp-title">
+                        <h3 style="font-size: 2.2rem;">Healthcare Monitoring System</h3>
+                        <h4>End-to-End IoT + Full-Stack Web Platform Architecture</h4>
+                    </div>
+                </div>
+
+                <div class="tag-container" style="justify-content: center; margin-bottom: 40px;">
+                    <span class="tag">ESP32</span> <span class="tag">MAX30102 (I2C)</span>
+                    <span class="tag">DS18B20</span> <span class="tag">MQ135 Air Sensor</span>
+                    <span class="tag">Touch Sensor</span> <span class="tag">Node.js</span>
+                    <span class="tag">Express.js</span> <span class="tag">MongoDB</span>
+                    <span class="tag">CI/CD (Vercel/Render)</span> <span class="tag">Git/GitHub</span>
+                </div>
+
+                <div class="grid-2">
+                    
+                    <div>
+                        <h4 style="color: var(--maroon-dark); text-align: center; font-size: 1.4rem; margin-bottom: 15px;">Hardware Telemetry Flow</h4>
+                        
+                        <div class="workflow-container">
+                            <div class="workflow-row">
+                                <div class="workflow-step">User Input<span>Finger Contact</span></div>
+                                <div class="workflow-step">Ambient Data<span>Environment</span></div>
+                            </div>
+                            <div class="workflow-split-arrow">
+                                <div>↓</div>
+                                <div>↓</div>
+                            </div>
+                            <div class="workflow-row">
+                                <div class="workflow-step" style="border-color: #B83A54;">MAX30102<span>Heart Rate & SpO2 via I2C Bus</span></div>
+                                <div class="workflow-step" style="border-color: #B83A54;">DS18B20 + MQ135 + Touch<span>Temp + Air Quality via Digital Pins</span></div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" style="background: var(--maroon-dark); color: #fff; border: none;">
+                                ESP32 Microcontroller
+                                <span style="color: rgba(255,255,255,0.7);">Compiler Node: Aggregates Multi-Sensor Payloads</span>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" style="border-style: dashed;">JSON Payload Packaging<span>Formats Analog/Digital Data for Web</span></div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" style="background: rgba(139, 38, 59, 0.05);">Wi-Fi Module (HTTP)<span>POST Request Transmitted to API</span></div>
+                        </div>
+
+                        <div class="workflow-summary">
+                            <h4>Hardware Execution Breakdown</h4>
+                            <div class="exp-list" style="margin-top: 0;">
+                                <div class="exp-item">
+                                    <div class="exp-icon">✦</div>
+                                    <div class="exp-text"><strong>Data Acquisition:</strong> The <strong>MAX30102</strong> interfaces via I2C to capture user vitals, while the <strong>DS18B20</strong>, <strong>MQ135</strong>, and <strong>Touch Sensor</strong> capture environmental variables through analog/digital pins.</div>
+                                </div>
+                                <div class="exp-item">
+                                    <div class="exp-icon">✦</div>
+                                    <div class="exp-text"><strong>Core Processing:</strong> The <strong>ESP32</strong> microcontroller acts as the central brain, actively polling all sensors concurrently to aggregate a complete telemetry profile.</div>
+                                </div>
+                                <div class="exp-item">
+                                    <div class="exp-icon">✦</div>
+                                    <div class="exp-text"><strong>Telemetry Routing:</strong> The aggregated data is structured into a clean JSON payload and transmitted wirelessly via the ESP32’s built-in Wi-Fi using secure HTTP requests to the cloud.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="color: var(--maroon-dark); text-align: center; font-size: 1.4rem; margin-bottom: 15px;">Software CI/CD Pipeline</h4>
+                        
+                        <div class="workflow-container">
+                            <div class="workflow-step" style="background: var(--maroon-dark); color: #fff; border: none;">
+                                Local Full-Stack Development
+                                <span style="color: rgba(255,255,255,0.7);">Frontend (Vite) + Backend (Node/Express)</span>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step">GitHub Master Repository<span>git push origin main</span></div>
+                            <div class="workflow-split-arrow" style="margin-top: 10px;">
+                                <div>↙</div>
+                                <div>↘</div>
+                            </div>
+                            <div class="workflow-row">
+                                <div class="workflow-step" style="border-color: #B83A54;">
+                                    <strong>Render</strong> (Backend API)
+                                    <span>Dir: <code>/Backend</code> | Cmd: <code>npm install</code></span>
+                                    <span>Run: <code>node server.js</code></span>
+                                    <span>Env: <code>MONGODB_URI</code></span>
+                                </div>
+                                <div class="workflow-step" style="border-color: #B83A54;">
+                                    <strong>Vercel</strong> (Frontend UI)
+                                    <span>Dir: <code>/iot-health</code> | Build: Vite</span>
+                                    <span>Inject Custom API Target</span>
+                                    <span>Env: <code>VITE_API_URL</code></span>
+                                </div>
+                            </div>
+                            <div class="workflow-split-arrow" style="margin-bottom: 5px;">
+                                <div>↓</div>
+                                <div>↓</div>
+                            </div>
+                            <div class="workflow-row">
+                                <div class="workflow-step" style="border-style: dashed;">REST Endpoints Live<span>Connects to MongoDB</span></div>
+                                <div class="workflow-step" style="border-style: dashed;">Dashboard Deployed<span>Live Graph Visualization</span></div>
+                            </div>
+                        </div>
+
+                        <div class="workflow-summary">
+                            <h4>Software Deployment Breakdown</h4>
+                            <div class="exp-list" style="margin-top: 0;">
+                                <div class="exp-item">
+                                    <div class="exp-icon">✦</div>
+                                    <div class="exp-text"><strong>Version Control:</strong> The complete application logic is committed and pushed to a centralized <strong>GitHub</strong> repository to initiate the automated CI/CD pipeline.</div>
+                                </div>
+                                <div class="exp-item">
+                                    <div class="exp-icon">✦</div>
+                                    <div class="exp-text"><strong>Backend Initialization:</strong> <strong>Render</strong> detects the push, navigates to the backend folder, installs dependencies, connects to MongoDB via secure env variables, and exposes the live REST endpoints.</div>
+                                </div>
+                                <div class="exp-item">
+                                    <div class="exp-icon">✦</div>
+                                    <div class="exp-text"><strong>Frontend Generation:</strong> <strong>Vercel</strong> concurrently pulls the frontend branch, links the dynamic <code>VITE_API_URL</code> to the new Render server, builds the UI, and publishes the live interactive dashboard.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2 class="section-title gsap-slide-up">Technical Arsenal</h2>
+            
+            <div class="grid-2">
+                <div class="aesthetic-card gsap-slide-up" style="margin-bottom: 0;">
+                    <div class="skill-group">
+                        <h3>Programming & Web Architecture</h3>
+                        <p class="category-desc">Designing, building, and deploying scalable full-stack applications.</p>
+                        
+                        <div class="tag-container" style="margin-top: 0; margin-bottom: 25px;">
+                            <span class="tag">C++</span> <span class="tag">HTML/CSS</span> <span class="tag">JavaScript</span>
+                            <span class="tag">Node.js</span> <span class="tag">Express.js</span> <span class="tag">MongoDB</span>
+                            <span class="tag">RESTful APIs</span> <span class="tag">GSAP Animations</span>
+                        </div>
+                        
+                        <div class="exp-list">
+                            <div class="exp-item">
+                                <div class="exp-icon">✦</div>
+                                <div class="exp-text"><strong>Frontend Architecture:</strong> Building mobile-first, highly responsive user interfaces using HTML/CSS and injecting dynamic, high-performance scroll animations leveraging GSAP and JavaScript.</div>
+                            </div>
+                            <div class="exp-item">
+                                <div class="exp-icon">✦</div>
+                                <div class="exp-text"><strong>Backend Engineering:</strong> Architecting secure RESTful APIs with Node.js and Express to handle advanced CRUD operations, manage complex CORS logic, and effectively bridge data between IoT hardware and web clients.</div>
+                            </div>
+                            <div class="exp-item">
+                                <div class="exp-icon">✦</div>
+                                <div class="exp-text"><strong>Database Management:</strong> Designing robust and scalable NoSQL schemas in MongoDB for the secure, multi-user storage and rapid retrieval of continuous telemetry data arrays.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aesthetic-card gsap-slide-up" style="margin-bottom: 0;">
+                    <div class="skill-group">
+                        <h3>Hardware & ECE Core</h3>
+                        <p class="category-desc">Interfacing microcontrollers with low-level sensor networks.</p>
+                        
+                        <div class="tag-container" style="margin-top: 0; margin-bottom: 25px;">
+                            <span class="tag">ESP32</span> <span class="tag">Digital Electronics</span> <span class="tag">Communication Systems</span>
+                            <span class="tag">Computer Networking</span> <span class="tag">IoT & Sensors</span> 
+                            <span class="tag">Network Theory</span> <span class="tag">I2C Protocols</span>
+                        </div>
+                        
+                        <div class="exp-list">
+                            <div class="exp-item">
+                                <div class="exp-icon">✦</div>
+                                <div class="exp-text"><strong>Microcomputing:</strong> Programming advanced ESP32 microcontroller nodes utilizing C++ to execute precise analog-to-digital conversions and securely manage continuous wireless data payloads.</div>
+                            </div>
+                            <div class="exp-item">
+                                <div class="exp-icon">✦</div>
+                                <div class="exp-text"><strong>Low-Level Protocol Interfacing:</strong> Integrating specialized hardware via I2C busses (e.g., MAX30102) and configuring essential hardware fail-safes using pull-up resistors and digital pin logic.</div>
+                            </div>
+                            <div class="exp-item">
+                                <div class="exp-icon">✦</div>
+                                <div class="exp-text"><strong>Signal Integrity Analysis:</strong> Applying foundational network theory and communication systems knowledge to troubleshoot signal latency and ensure absolute accuracy in active telemetry routing.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aesthetic-card gsap-slide-up" style="margin-bottom: 0;">
+                    <div class="skill-group">
+                        <h3>Leadership & DevOps Tools</h3>
+                        <p class="category-desc">Managing development pipelines and democratizing complex tech.</p>
+                        
+                        <div class="tag-container" style="margin-top: 0; margin-bottom: 25px;">
+                            <span class="tag">AI-assisted Workflows</span> <span class="tag">Mentoring</span>
+                            <span class="tag">Academic Development</span> <span class="tag">Git/GitHub</span>
+                            <span class="tag">Render Deployment</span> <span class="tag">Vercel Deployment</span> <span class="tag">CI/CD Pipeline</span>
+                        </div>
+                        
+                        <div class="exp-list">
+                            <div class="exp-item">
+                                <div class="exp-icon">✦</div>
+                                <div class="exp-text"><strong>Workflow Management (CI/CD):</strong> Establishing strict version control using Git/GitHub and engineering automated, end-to-end deployment pipelines utilizing Render and Vercel cloud platforms.</div>
+                            </div>
+                            <div class="exp-item">
+                                <div class="exp-icon">✦</div>
+                                <div class="exp-text"><strong>AI Integration:</strong> Strategically leveraging generative AI models to accelerate coding logic generation, debug system errors, and optimize complex architectural decision-making workflows.</div>
+                            </div>
+                            <div class="exp-item">
+                                <div class="exp-icon">✦</div>
+                                <div class="exp-text"><strong>Technical Translation:</strong> Architecting comprehensive university-level curricula and authoring rigorous LaTeX technical documentation to simplify abstract engineering concepts for incoming students.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aesthetic-card gsap-slide-up" style="margin-bottom: 0; background-color: var(--maroon-dark);">
+                    <div class="skill-group" style="border-left-color: var(--maroon-light);">
+                        <h3 style="color: #fff;">Core Domains of Interest</h3>
+                        <p class="category-desc" style="color: rgba(255,255,255,0.6);">Intersecting areas for future technical exploration.</p>
+                        
+                        <div class="tag-container" style="margin-top: 0; margin-bottom: 25px;">
+                            <span class="tag" style="background: rgba(255,255,255,0.1); color:#fff; border-color: rgba(255,255,255,0.3);">Artificial Intelligence</span>
+                            <span class="tag" style="background: rgba(255,255,255,0.1); color:#fff; border-color: rgba(255,255,255,0.3);">Tech Education & EdTech</span>
+                            <span class="tag" style="background: rgba(255,255,255,0.1); color:#fff; border-color: rgba(255,255,255,0.3);">Web Development</span>
+                            <span class="tag" style="background: rgba(255,255,255,0.1); color:#fff; border-color: rgba(255,255,255,0.3);">Startup Innovation</span>
+                        </div>
+                        
+                        <p style="color: rgba(255,255,255,0.8); font-size: 0.95rem; line-height: 1.6;">
+                            <strong>Location Preferences:</strong> Highly receptive to <strong>Remote (WFH)</strong> and <strong>Kolkata-based</strong> roles. Equivalently open to relocating to major tech hubs including <strong>Bangalore, Mumbai, Pune, Hyderabad, and Chennai</strong> for the right role that leverages my diverse background in engineering, AI, web development, and tech education.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2 class="section-title gsap-slide-up">Academic Foundation</h2>
+            
+            <div class="grid-3">
+                <div class="aesthetic-card gsap-slide-up" style="height: 100%;">
+                    <h4 style="font-size: 1.2rem; color: var(--maroon-dark); margin-bottom: 10px;">B.Tech - Electronics & Communication</h4>
+                    <p style="color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">Maulana Abul Kalam Azad University of Technology (MAKAUT), West Bengal</p>
+                    <span class="stat-highlight">7.845 CGPA</span>
+                    <p style="font-weight: 700; color: var(--maroon-light);">Expected Graduation: 2026</p>
+                </div>
+
+                <div class="aesthetic-card gsap-slide-up" style="height: 100%;">
+                    <h4 style="font-size: 1.2rem; color: var(--maroon-dark); margin-bottom: 10px;">Class XII (WBCHSE)</h4>
+                    <p style="color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">Pathfinder Higher Secondary Public School<br>Physics, Chemistry, Maths & CS</p>
+                    <span class="stat-highlight" style="font-size: 2.5rem;">94.20%</span>
+                    <p style="font-weight: 700; color: var(--maroon-light);">Year: 2022</p>
+                </div>
+
+                <div class="aesthetic-card gsap-slide-up" style="height: 100%;">
+                    <h4 style="font-size: 1.2rem; color: var(--maroon-dark); margin-bottom: 10px;">Class X (WBBSE)</h4>
+                    <p style="color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">Nava Nalanda<br>General Academics</p>
+                    <span class="stat-highlight" style="font-size: 2.5rem;">86.43%</span>
+                    <p style="font-weight: 700; color: var(--maroon-light);">Year: 2020</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer id="contact">
+        <div class="container gsap-slide-up">
+            <h2 style="font-size: 3rem; font-family: 'Outfit'; margin-bottom: 20px; color: #fff;">Let's Build the Future.</h2>
+            
+            <p style="color: rgba(255,255,255,0.8); max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.6;">
+                Currently seeking dynamic opportunities across AI-driven organizations, tech startups, and educational institutions. <br>
+                <span style="color: #fca5a5; font-weight: 600;">Location Options:</span> Strong preference for <strong>Remote (WFH)</strong> or <strong>Kolkata</strong>, but fully ready to relocate to <strong>Bangalore, Mumbai, Pune, Hyderabad, or Chennai</strong> for the right role.
+            </p>
+
+            <div class="contact-wrap">
+                <div class="contact-item"><span>Primary Email</span><a href="mailto:saptarshibasu12c@gmail.com">saptarshibasu12c@gmail.com</a></div>
+                <div class="contact-item"><span>Secondary Email</span><a href="mailto:saptarshibasuece@gmail.com">saptarshibasuece@gmail.com</a></div>
+                <div class="contact-item"><span>Phone / WhatsApp</span><a href="tel:+917439645008">+91 7439645008</a></div>
+                <div class="contact-item"><span>Professional Network</span><a href="https://www.linkedin.com/in/saptarshibasu07" target="_blank">linkedin.com/in/saptarshibasu07</a></div>
+                
+                <div class="contact-item" style="width: 100%; margin-top: 25px;">
+                    <span>Base of Operations</span>
+                    <strong>Kolkata, West Bengal</strong>
+                </div>
+                <div class="contact-item" style="width: 100%; margin-top: 15px;">
+                    <span>Permanent & Residing Address</span>
+                    <strong style="font-size: 1.1rem;">31, Swami Vivekananda Road, Howrah - 711101, West Bengal</strong>
+                </div>
+            </div>
+
+            <p style="color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;"> © 2026 Saptarshi Basu. Engineered with Precision, HTML, CSS & GSAP. </p>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from(".gsap-fade", { y: -20, opacity: 0, duration: 1, ease: "power3.out" });
+        gsap.from(".gsap-stagger > *", { y: 30, opacity: 0, duration: 1, stagger: 0.15, ease: "power3.out", delay: 0.2 });
+
+        const slideUpElements = document.querySelectorAll(".gsap-slide-up");
+        slideUpElements.forEach((el) => {
+            gsap.fromTo(el, { y: 40, opacity: 0 }, {
+                y: 0, opacity: 1, duration: 0.8, ease: "power2.out",
+                scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" }
+            });
+        });
+
+        // Fixed Active State Logic
+        const sections = document.querySelectorAll("section, footer");
+        const navLinks = document.querySelectorAll(".nav-links a");
+
+        window.addEventListener("scroll", () => {
+            let current = "";
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= (sectionTop - 200)) { current = section.getAttribute("id"); }
+            });
+
+            if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 50) { current = "contact"; }
+
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+                if (link.getAttribute("href").includes(current)) { link.classList.add("active"); }
+            });
+        });
+    </script>
+</body>
+</html>
